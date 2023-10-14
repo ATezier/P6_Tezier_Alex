@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="../assets/struct.css" rel="stylesheet">
+    <link href="../assets/transfer.css" rel="stylesheet">
+    <title>Transfer</title>
+</head>
+<body>
+    <div class="navbar">
+        <img src="../assets/logoPayMyBuddy.png"/>
+        <a class="active" href="/home">Home</a>
+        <a href="#/transfer">Transfer</a>
+        <a href="/profile">Profile</a>
+        <a href="/contact">Contact</a>
+        <a href="/logout">Log Out</a>
+    </div>
+    <div><span id="webPath">Path</span></div>
+    <div class="container">
+        <div>
+            <div class="horizontalContainer twoItems">
+                <h2>Send Money</h2>
+                <a id="addConnexion" href="/contact">Add Connexion</a>
+            </div>
+            <form   class="horizontalContainer form transactionForm"
+                    method="post"
+                    role="form"
+                    th:action="@{/addTransaction}"
+                    th:object="${transaction}">
+
+                <select name="paid" id="paid">
+                    <option value="0">Please Select</option>
+                    <option th:each="buddy: ${friendList}" th:value="${buddy.uid}" th:text="${buddy.lastName}+' '+${buddy.firstName}"></option>
+                </select>
+                <textarea placeholder="Description" name="label" id="label"></textarea>
+                <input name="price" id="amount" placeholder="0"€/>
+                <p class="text-danger" th:errors="*{price}"
+                th:if="${#fields.hasErrors('price')}"></p>
+                <button class="mainColor" type="submit">Pay</button>
+            </form>
+        </div>
+        
+        <h2 class="h2">My Transactions</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr class="mainColor" >
+                    <th>Connections</th>
+                    <th>Date</th>
+                    <th>Descriptions</th>
+                    <th>Amounts</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${history == null}">
+                    <td colspan="3">There aren't any Transactions for now</td>
+                </tr>
+
+                <tr th:if="${history != null}" th:each="item: ${history}">
+                    <td><span th:text="${item.lastName}+ ' '+ ${item.firstName}"> LastName and FirstName </span></td>
+                    <td><span th:text="${item.date}"> Date </span></td>
+                    <td><span th:text="${item.label}"> Reason </span></td>
+                    <td><span th:text="${item.amount}"> Amount </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+        document.getElementById("webPath").innerHTML = console.log(window.location.pathname);
+</script>
+</html>
