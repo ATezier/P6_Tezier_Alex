@@ -103,15 +103,8 @@ public class UserServiceImp implements UserService {
         return res;
     }
     public boolean addMoney(double amount, String email) {
-        boolean res = false;
         User user = userRepository.findByEmail(email);
-        double newAmount = user.getAmount() + amount;
-        if(newAmount > 0) {
-            user.setAmount(TransactionService.truncateDouble(newAmount));
-            userRepository.save(user);
-            res = true;
-        }
-        return res;
+        return addMoney(amount, user.getUid());
     }
 
     public void saveNewUserAfterOAuthLoginSuccess(String email, String name, AuthentificationProvider provider) {

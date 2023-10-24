@@ -12,7 +12,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     public User findByEmail(String email);
 
-    public User findByFirstNameAndLastName(String FirstName, String LastName);
+    public User findByFirstNameAndLastName(String firstName, String lastName);
 
     public User findByUid(Integer uid);
 }
