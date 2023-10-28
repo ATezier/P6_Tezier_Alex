@@ -20,8 +20,12 @@ create table roles(
 create table account(
 AID int PRIMARY KEY AUTO_INCREMENT,
 UID int,
-AMOUNT double,
-CARD_NUMBER varchar(255),
+NAME varchar(255),
+CARD_TYPE varchar(31),
+CARD_NUMBER varchar(31),
+EXP_MONTH tinyint,
+EXP_YEAR smallint,
+MODIFIED_DATE DATETIME NOT NULL,
 FOREIGN KEY (UID) REFERENCES user(UID)
 );
 

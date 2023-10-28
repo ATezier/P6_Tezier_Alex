@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" href="style.css">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+    
+    <link href="../assets/struct.css" rel="stylesheet">
+    <title>Registration</title>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6 mx-auto">
+            <form
+                method="post"
+                role="form"
+                th:action="@{/addAccount}"
+                th:object="${account}"
+            >
+                <h1>Add an account</h1>
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        Registration successful !!!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input class="form-control" id="name" name="name" type="name">
+                    <p class="text-danger" th:errors="*{name}"
+                       th:if="${#fields.hasErrors('name')}"></p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="cardNumber">Card Number</label>
+                    <input class="form-control" id="cardNumber" name="cardNumber" type="text">
+                    <p class="text-danger" th:errors="*{cardNumber}"
+                       th:if="${#fields.hasErrors('cardNumber')}"></p>
+                </div>
+                <div class="date-field mb-3">
+                  <div class="month">
+                    <select name="expMonth">
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </div>
+                  <div class="year">
+                    <select name="expYear">
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                      <option value="2027">2027</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary mb-3" type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script crossorigin="anonymous"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

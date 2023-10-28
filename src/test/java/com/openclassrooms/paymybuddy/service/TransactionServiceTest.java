@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class TransactionServiceTest {
     private User user = null;
     @MockBean
-    private UserServiceImp userService;
+    private UserService userService;
 
     @MockBean
     private TransactionRepository transactionRepository;

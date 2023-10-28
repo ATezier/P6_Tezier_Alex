@@ -32,7 +32,7 @@ public class UserServiceTest {
     @MockBean
     private UserRepository userRepository;
     @Autowired
-    private UserServiceImp userService;
+    private UserService userService;
 
 
     @BeforeAll
