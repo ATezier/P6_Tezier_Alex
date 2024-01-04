@@ -21,8 +21,6 @@ public class Role {
     private Integer rid;
     @Column(nullable = false, unique = true)
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users = new ArrayList<>();
 
     public Role(String name) {
         this.name = name;

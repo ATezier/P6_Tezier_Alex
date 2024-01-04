@@ -1,6 +1,7 @@
 package com.openclassrooms.paymybuddy;
 
 import com.openclassrooms.paymybuddy.dto.TransactionDto;
+import com.openclassrooms.paymybuddy.dto.UserDto;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
 import com.openclassrooms.paymybuddy.service.TransactionService;

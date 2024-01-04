@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Entity
 @Table(name = "user")
@@ -30,21 +27,16 @@ public class User {
     @Column(name = "auth_provider")
     private AuthentificationProvider authProvider;
 
+    @ManyToOne
+    @JoinColumn(name="rid", referencedColumnName = "rid")
+    private Role role;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "uid")},
-            inverseJoinColumns = {@JoinColumn(name = "roleId", referencedColumnName = "rid")}
-    )
-    private List<Role> roles = new ArrayList<>();
-
-    public User(String firstName, String lastName, String email, String password, List<Role> roles, AuthentificationProvider authProvider) {
+    public User(String firstName, String lastName, String email, String password, Role role, AuthentificationProvider authProvider) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
         this.authProvider = authProvider;
     }
 

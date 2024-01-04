@@ -37,8 +37,8 @@ public class SecurityConfiguration {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/home")
+                        //.loginProcessingUrl("/login")
+                        //.defaultSuccessUrl("/home")
                         .permitAll()
                 )
                 .oauth2Login(oauth2Login ->

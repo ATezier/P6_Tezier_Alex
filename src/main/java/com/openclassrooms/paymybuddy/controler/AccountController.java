@@ -25,16 +25,12 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
-    @Autowired
-    UserService userService;
-
     @GetMapping("/addFunds")
-    public String account(Model model) {
+    public String accounts(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         Double amount = 0.0;
-        Integer uid = userService.findUserByEmail(email).getUid();
-        List<Account> accounts = accountService.getAccountsByUid(uid);
+        List<Account> accounts = accountService.getAccountsByEmail(email);
         model.addAttribute("accounts", accounts);
         model.addAttribute("amount", amount);
         return "addFunds";
@@ -64,8 +60,7 @@ public class AccountController {
             Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
-        Integer uid = userService.findUserByEmail(email).getUid();
-        accountService.addAccount(account, uid);
+        accountService.addAccount(account, email);
         return "redirect:/addFunds?success";
     }
 

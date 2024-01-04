@@ -2,19 +2,21 @@
 create database p6;
 use p6;
 
+create table roles(
+     RID int PRIMARY KEY AUTO_INCREMENT,
+     NAME varchar(255) UNIQUE
+);
+
 create table user(
 UID int PRIMARY KEY AUTO_INCREMENT,
+RID int,
 EMAIL varchar(255) UNIQUE,
 FIRSTNAME varchar(255) NOT NULL,
 LASTNAME varchar(255) NOT NULL,
 PASSWORD varchar(255) NOT NULL,
 AMOUNT double,
-AUTH_PROVIDER varchar(255)
-);
-
-create table roles(
-     RID int PRIMARY KEY AUTO_INCREMENT,
-     NAME varchar(255) UNIQUE
+AUTH_PROVIDER varchar(255),
+FOREIGN KEY (RID) REFERENCES roles(RID)
 );
 
 create table account(

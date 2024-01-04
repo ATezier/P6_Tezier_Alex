@@ -36,7 +36,7 @@ public class UserService {
             role = roleRepository.save(new com.openclassrooms.paymybuddy.model.Role(com.openclassrooms.paymybuddy.util.TbConstants.Roles.USER));
 
         User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()),
-                Arrays.asList(role), AuthentificationProvider.LOCAL);
+                role, AuthentificationProvider.LOCAL);
         userRepository.save(user);
     }
 
@@ -120,5 +120,9 @@ public class UserService {
             res = true;
         }
         return res;
+    }
+
+    public Integer getUidByEmail(String email) {
+        return userRepository.findByEmail(email).getUid();
     }
 }
