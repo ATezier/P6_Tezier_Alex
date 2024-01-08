@@ -22,7 +22,6 @@ public class BuddiesController {
     @Autowired
     UserService userService;
 
-
     @GetMapping("/contact")
     public String contact(Model model) {
         String buddyEmail = new String();

@@ -37,16 +37,15 @@ public class SecurityConfiguration {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        //.loginProcessingUrl("/login")
-                        //.defaultSuccessUrl("/home")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/home")
                         .permitAll()
                 )
-                .oauth2Login(oauth2Login ->
-                        oauth2Login
-                                .loginPage("/login")
-                                .successHandler(oAuth2SuccessHandler)
-                                .defaultSuccessUrl("/home")
-                                .permitAll()
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .successHandler(oAuth2SuccessHandler)
+                        .defaultSuccessUrl("/home")
+                        .permitAll()
                 )
                 .exceptionHandling().accessDeniedPage("/access-denied")
                 .and()

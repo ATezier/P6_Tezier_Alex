@@ -25,17 +25,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         User user = userService.findUserByEmail(email);
         if(email != null) {
             if(user == null) {
-                System.out.println("New User");
                 userService.saveNewUserAfterOAuthLoginSuccess(email, oAuth2User.getName(), AuthentificationProvider.GITHUB);
             } else {
-                System.out.println("Existing user attempt to login");
                 userService.updateUserAfterOAuthLoginSuccess(user, oAuth2User.getName(), AuthentificationProvider.GITHUB);
             }
         } else {
             throw new RuntimeException("Email not found from OAuth2 provider");
         }
-
-
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

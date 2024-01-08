@@ -39,7 +39,6 @@ public class TransactionController {
         model.addAttribute("transaction", transaction);
         model.addAttribute("history", history);
         model.addAttribute("friendList", friendList);
-
         return "transfer";
     }
 
