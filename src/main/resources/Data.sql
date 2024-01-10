@@ -15,7 +15,6 @@ FIRSTNAME varchar(255) NOT NULL,
 LASTNAME varchar(255) NOT NULL,
 PASSWORD varchar(255) NOT NULL,
 AMOUNT double,
-AUTH_PROVIDER varchar(255),
 FOREIGN KEY (RID) REFERENCES roles(RID)
 );
 
@@ -50,7 +49,7 @@ create table buddies(
   FOREIGN KEY (UID2) REFERENCES  user(UID)
 );
 
-insert into user(EMAIL, FIRSTNAME, LASTNAME, PASSWORD, AMOUNT, AUTH_PROVIDER) values('test@example.com', 'test', 'tester', 'test', 1000, 'local');
-insert into user(EMAIL, FIRSTNAME, LASTNAME, PASSWORD, AMOUNT, AUTH_PROVIDER) values('test1@example.com', 'test1', 'tester1', 'test', 0, 'local');
+insert into user(EMAIL, FIRSTNAME, LASTNAME, PASSWORD, AMOUNT) values('test@example.com', 'test', 'tester', 'test', 1000);
+insert into user(EMAIL, FIRSTNAME, LASTNAME, PASSWORD, AMOUNT) values('test1@example.com', 'test1', 'tester1', 'test', 0);
 
 commit;

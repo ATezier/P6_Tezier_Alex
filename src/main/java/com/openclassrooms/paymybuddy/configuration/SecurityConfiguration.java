@@ -1,6 +1,5 @@
 package com.openclassrooms.paymybuddy.configuration;
 
-import com.openclassrooms.paymybuddy.controler.OAuth2SuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    @Autowired
-    private OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -38,12 +35,6 @@ public class SecurityConfiguration {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/home")
-                        .permitAll()
-                )
-                .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
-                        .successHandler(oAuth2SuccessHandler)
                         .defaultSuccessUrl("/home")
                         .permitAll()
                 )

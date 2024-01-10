@@ -1,11 +1,8 @@
 package com.openclassrooms.paymybuddy.controler;
 
 import com.openclassrooms.paymybuddy.configuration.SecurityConfiguration;
-import com.openclassrooms.paymybuddy.dto.UserDto;
 import com.openclassrooms.paymybuddy.model.Account;
-import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.service.AccountService;
-import com.openclassrooms.paymybuddy.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,8 +38,6 @@ public class AccountController {
             @Valid @ModelAttribute("amount") Double amount, @Valid @ModelAttribute("aid") Integer aid,
             BindingResult result,
             Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         accountService.supplyAccount(amount, aid);
         return "redirect:/home?success";
     }
