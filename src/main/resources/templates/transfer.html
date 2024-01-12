@@ -13,16 +13,16 @@
     <title>Transfer</title>
 </head>
 <body>
-    <div class="navbar">
+    <nav class="navbar">
         <img src="../assets/logoPayMyBuddy.png"/>
         <a class="active" href="/home">Home</a>
         <a href="#/transfer">Transfer</a>
         <a href="/profile">Profile</a>
         <a href="/contact">Contact</a>
         <a href="/logout">Log Out</a>
-    </div>
-    <div><span id="webPath">Path</span></div>
-    <div class="container">
+    </nav>
+    <div class="container verticalContainer">
+        <div class="path"><a href="home">Home</a> / <a href="transfer">Transfer</a></div>
         <div>
             <div class="horizontalContainer twoItems">
                 <h2>Send Money</h2>
@@ -58,11 +58,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${history == null}">
+                <tr th:if="${transactions == null}">
                     <td colspan="3">There aren't any Transactions for now</td>
                 </tr>
 
-                <tr th:if="${history != null}" th:each="item: ${history}">
+                <tr th:if="${transactions.content != null}" th:each="item: ${transactions.content}">
                     <td><span th:text="${item.lastName}+ ' '+ ${item.firstName}"> LastName and FirstName </span></td>
                     <td><span th:text="${item.date}"> Date </span></td>
                     <td><span th:text="${item.label}"> Reason </span></td>
@@ -71,9 +71,14 @@
                 </tbody>
             </table>
         </div>
+        <div th:if="${transactions.totalPages > 0}" class="pagination">
+            <a th:if="${transactions.number != 0}" th:href="@{/transfer(size=${transactions.size}, page=*{transactions.number-1})}">&laquo;</a>
+            <a th:each="pageNumber : ${pageNumbers}"
+               th:href="@{/transfer(size=${transactions.size}, page=${pageNumber-1})}"
+               th:text=${pageNumber}
+               th:class="${pageNumber==transactions.number + 1} ? active"></a>
+            <a th:if="${transactions.number != transactions.totalPages-1}" th:href="@{/transfer(size=${transactions.size}, page=*{transactions.number+1})}">&raquo;</a>
+        </div>
     </div>
 </body>
-<script>
-        document.getElementById("webPath").innerHTML = console.log(window.location.pathname);
-</script>
 </html>

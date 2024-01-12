@@ -40,38 +40,16 @@ public class TransactionController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping("/transfer")
-    public String transferPage(Model model) {
+    public String getAllTutorialsPage(Model model,
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "3") int size,
+                                      @RequestParam(defaultValue = "date,desc") String[] sort) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         Transaction transaction = new Transaction();
-        List<TransactionDto> history = transactionService.getHistory(email);
         List<FriendDto> friendList = userService.getFriendDtoList(email);
-        model.addAttribute("transaction", transaction);
-        model.addAttribute("history", history);
-        model.addAttribute("friendList", friendList);
-        return "transfer";
-    }
-
-    @PostMapping("/addTransaction")
-    public String addTransfer(@ModelAttribute("transaction") Transaction transaction, BindingResult result, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
-        if (transaction.getPrice() < 0 || transaction.getPrice() == 0)
-            result.rejectValue("price", null,
-                    "You must send something...");
-        transactionService.addTransaction(email, transaction.getPaid(), transaction.getLabel(), transaction.getPrice());
-        return "redirect:/transfer?success";
-    }
-
-    @GetMapping("/testTransaction")
-    public String getAllTutorialsPage(Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size,
-            @RequestParam(defaultValue = "date,desc") String[] sort) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
-
         List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
         if (sort[0].contains(",")) {
@@ -96,7 +74,19 @@ public class TransactionController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         model.addAttribute("transactions", pageTransactionsDto);
-        //model.addAttribute("totalItems", pageTransactions.getTotalElements());
-        return "/testTransaction";
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("friendList", friendList);
+        return "/transfer";
+    }
+
+    @PostMapping("/addTransaction")
+    public String addTransfer(@ModelAttribute("transaction") Transaction transaction, BindingResult result, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
+        if (transaction.getPrice() < 0 || transaction.getPrice() == 0)
+            result.rejectValue("price", null,
+                    "You must send something...");
+        transactionService.addTransaction(email, transaction.getPaid(), transaction.getLabel(), transaction.getPrice());
+        return "redirect:/transfer?success";
     }
 }

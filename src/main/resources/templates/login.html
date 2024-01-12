@@ -5,44 +5,44 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
-    
-    <link href="../assets/struct.css" rel="stylesheet">
-    <title>Login</title>
+
+    <link href="../static/assets/login.css" rel="stylesheet">
+    <title>Pay My Buddy</title>
 </head>
 <body>
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-6 mx-auto">
-            <h1>Login Form</h1>
-            <div th:if="${param.error}">
-                <div class="alert alert-danger">Invalid Email or Password !!!</div>
-            </div>
-            <div th:if="${param.logout}">
-                <div class="alert alert-success">You have been logged out !!!</div>
-            </div>
-            <form
-                    class="form-horizontal"
-                    method="post"
-                    role="form"
-                    th:action="@{/login}"
-            >
-                <div class="mb-3">
-                    <label class="form-label" for="password">Email</label>
-                    <input class="form-control" id="username" name="username" placeholder="Enter email address"
-                           type="email">
-                </div>
-                <div class="mb-3">
-                    <label class="col-sm-2 col-form-label" for="password">Password</label>
-                    <input class="form-control" id="password" name="password" placeholder="Enter password"
-                           type="password">
-                </div>
-                    <button class="mainColor" type="submit">Login</button>
-                    or <a class="link-primary" th:href="@{/registration}">Register</a>
-            </form>
-            <h4><a th:href="@{/oauth2/authorization/github}">Login with github</a></h4>
-        </div>
+  <div id="login">
+    <img id="logo" src="/assets/logoPayMyBuddy.png"/>
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">Invalid Email or Password !!!</div>
     </div>
-</div>
+    <div th:if="${param.logout}">
+        <div class="alert alert-success">You have been logged out !!!</div>
+    </div>
+    <form class="form"
+                method="post"
+                role="form"
+                th:action="@{/login}">
+      <p class="fieldset">
+        <label class="image-replace email" for="password">E-mail</label>
+        <input class="input-field" id="username" name="username" type="email" placeholder="E-mail">
+      </p>
+
+      <p class="fieldset">
+        <label class="image-replace password" for="password">Password</label>
+        <input class="input-field" id="password" name="password" type="password"  placeholder="Password">
+        <a href="#0" class="hide-password">Show</a>
+      </p>
+
+      <p class="fieldset">
+        <input type="checkbox" id="remember-me" checked>
+        <label for="remember-me">Remember me</label>
+      </p>
+
+      <p class="fieldset">
+        <input class="full-width" type="submit" value="Login">
+      </p>
+    </form>
+  </div>
 
 
 <script crossorigin="anonymous"
@@ -50,4 +50,156 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+<style>
+
+#logo {
+    width: 200px
+}
+
+#login {
+    border: solid 2px #b7b6b6;
+    border-radius: 15px;
+    padding: 5vh 5vw;
+    margin: 10vh 35vw 0 35vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form .input-field {
+  padding: 12px 20px 12px 50px;
+  border: 1px solid #d2d8d8;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  width: 100%;
+}
+
+.form {
+  padding: 1.4em;
+}
+.form .fieldset {
+  position: relative;
+  margin: 1.4em 0;
+}
+.form .fieldset:first-child {
+  margin-top: 0;
+}
+.form .fieldset:last-child {
+  margin-bottom: 0;
+}
+.form label {
+  font-size: 14px;
+  font-size: 0.875rem;
+}
+.form label.image-replace {
+  /* replace text with an icon */
+  display: inline-block;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  bottom: auto;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  color: transparent;
+  text-shadow: none;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+}
+.form label.email {
+  background-image: url("/assets/iconEmail.png");
+}
+.form label.password {
+  background-image: url("/assets/iconAsterisk.png");
+}
+.form input {
+  margin: 0;
+  padding: 0;
+  border-radius: 0.25em;
+}
+.form input.full-width {
+  width: 100%;
+}
+.form input.has-border:focus {
+  border-color: #343642;
+  box-shadow: 0 0 5px rgba(52, 54, 66, 0.1);
+  outline: none;
+}
+.form input.has-error {
+  border: 1px solid #d76666;
+}
+.form input[type=password] {
+  /* space left for the HIDE button */
+  padding-right: 65px;
+}
+.form input[type=submit] {
+  padding: 16px 0;
+  cursor: pointer;
+  background: #5cb95c;
+  color: #FFF;
+  font-weight: bold;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+	-webkit-transition: all 0.30s ease-in-out;
+  	-moz-transition: all 0.30s ease-in-out;
+  	-ms-transition: all 0.30s ease-in-out;
+  	-o-transition: all 0.30s ease-in-out;
+}
+.form input[type=submit]:hover {
+	background: #4ed418;
+}
+.no-touch .form input[type=submit]:hover, .no-touch .form input[type=submit]:focus {
+  background: #d83d3d;
+  outline: none;
+}
+.form .hide-password {
+  display: inline-block;
+  position: absolute;
+	text-decoration: none;
+  right: 0;
+  top: 0;
+  padding: 6px 15px;
+  border-left: 1px solid #d2d8d8;
+  top: 50%;
+  bottom: auto;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-size: 0.875rem;
+  color: #343642;
+}
+@media only screen and (min-width: 600px) {
+  .form {
+    padding: 2em;
+  }
+  .form .fieldset {
+    margin: 2em 0;
+  }
+  .form .fieldset:first-child {
+    margin-top: 0;
+  }
+  .form .fieldset:last-child {
+    margin-bottom: 0;
+  }
+  .form input.has-padding {
+    padding: 16px 20px 16px 50px;
+  }
+  .form input[type=submit] {
+    padding: 16px 0;
+  }
+}
+
+
+</style>
 </html>

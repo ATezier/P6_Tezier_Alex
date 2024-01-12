@@ -14,7 +14,7 @@ button, .btn {
     color : green;
     display : flex;
     flex-direction : row;
-    justify-content : space-around;
+    justify-content : flex-end;
 }
 
 .navbar > img {
@@ -32,7 +32,7 @@ button, .btn {
 .verticalContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 }
 
 .twoItems {
@@ -54,4 +54,8 @@ a.intern {
 h1, h2 {
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+.path {
+    align-self : flex-start;
 }
