@@ -2,7 +2,6 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.dto.FriendDto;
 import com.openclassrooms.paymybuddy.dto.UserDto;
-import com.openclassrooms.paymybuddy.model.AuthentificationProvider;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -36,7 +34,7 @@ public class UserService {
             role = roleRepository.save(new com.openclassrooms.paymybuddy.model.Role(com.openclassrooms.paymybuddy.util.TbConstants.Roles.USER));
 
         User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()),
-                role, AuthentificationProvider.LOCAL);
+                role);
         userRepository.save(user);
     }
 
@@ -48,15 +46,10 @@ public class UserService {
         return userRepository.findByUid(uid);
     }
 
-    public User findUserByName(String firstName, String lastName) {
-        return userRepository.findByFirstNameAndLastName(firstName, lastName);
-    }
-
     public List<FriendDto> getFriendDtoList(String email) {
         List<FriendDto> friendDtoList = null;
         User user = userRepository.findByEmail(email);
         List<Integer> uidList = buddyService.getBuddyList(user.getUid());
-        user = null;
         if(!uidList.isEmpty()) {
             friendDtoList = new ArrayList<>();
             for(Integer id : uidList) {
@@ -76,12 +69,10 @@ public class UserService {
 
     public void updateUser(UserDto dto) {
         User user = userRepository.findByUid(dto.getId());
-        if(dto != null) {
-            if(!dto.getEmail().isEmpty()) user.setEmail(dto.getEmail());
-            if(!dto.getFirstName().isEmpty()) user.setFirstName(dto.getFirstName());
-            if (!dto.getLastName().isEmpty()) user.setLastName(dto.getLastName());
-            if (!dto.getPassword().isEmpty()) user.setPassword(dto.getPassword());
-        }
+        if(!dto.getEmail().isEmpty()) user.setEmail(dto.getEmail());
+        if(!dto.getFirstName().isEmpty()) user.setFirstName(dto.getFirstName());
+        if (!dto.getLastName().isEmpty()) user.setLastName(dto.getLastName());
+        if (!dto.getPassword().isEmpty()) user.setPassword(dto.getPassword());
         userRepository.save(user);
     }
 
@@ -99,17 +90,6 @@ public class UserService {
     public boolean addMoney(double amount, String email) {
         Integer uid = userRepository.findByEmail(email).getUid();
         return addMoney(amount, uid);
-    }
-
-    public void saveNewUserAfterOAuthLoginSuccess(String email, String name, AuthentificationProvider provider) {
-        User user = new User(name, null, email, null, null, provider);
-        userRepository.save(user);
-    }
-
-    public void updateUserAfterOAuthLoginSuccess(User user, String name, AuthentificationProvider provider) {
-        user.setFirstName(name);
-        user.setAuthProvider(provider);
-        userRepository.save(user);
     }
 
     public boolean deleteUserByEmail(String email) {

@@ -12,8 +12,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
@@ -40,14 +38,13 @@ public class TransactionService {
         return res;
     }
 
-    public void addTransaction(String payerEmail, Integer paid, String label, double amount) throws IOException {
+    public void addTransaction(String payerEmail, Integer paid, String label, double amount) throws IllegalArgumentException {
         TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
-        if(payerEmail == null || paid == null || label == null) throw new IOException("Error null argument");
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 Integer payer;
-                boolean enoughFund = false;
+                boolean enoughFund;
                 double truncatedAmount = truncateDouble(amount);
                 double truncatedAmountWithFees = truncateDouble(amount * (1.005));
                 payer = userService.findUserByEmail(payerEmail).getUid();
@@ -91,11 +88,10 @@ public class TransactionService {
         Page<Transaction> pageTransactions;
         pageTransactions = transactionRepository.findByPayerOrPaid(uid, uid, pagingSort);
 
-        List<TransactionDto> transactionsDto = null;
-        User user = null;
+        List<TransactionDto> transactionsDto = new ArrayList<>();
+        User user;
         if(!pageTransactions.getContent().isEmpty())
         {
-            transactionsDto = new ArrayList<>();
             for (Transaction t : pageTransactions.getContent()) {
                 if(t.getPayer() == uid) {
                     //Viewer is payer
@@ -108,9 +104,7 @@ public class TransactionService {
                 }
             }
         }
-
-        Page<TransactionDto> pageTransactionsDto = new PageImpl<TransactionDto>(transactionsDto,
+        return new PageImpl<>(transactionsDto,
                 PageRequest.of(pagingSort.getPageNumber(), pagingSort.getPageSize()), transactionRepository.countByPayerOrPaid(uid, uid));
-        return pageTransactionsDto;
     }
 }

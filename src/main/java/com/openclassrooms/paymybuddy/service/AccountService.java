@@ -41,10 +41,8 @@ public class AccountService {
     }
 
     public List<Account> getAccountsByEmail(String email) {
-        List<Account> accounts = new ArrayList<>();
         Integer uid = userService.getUidByEmail(email);
-        accounts.addAll(accountRepository.findAllByUid(uid));
-        return accounts;
+        return new ArrayList<>(accountRepository.findAllByUid(uid));
     }
 
     public void supplyAccount(double amount, int aid) {

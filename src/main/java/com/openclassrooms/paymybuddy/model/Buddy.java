@@ -1,12 +1,13 @@
 package com.openclassrooms.paymybuddy.model;
 
-import com.openclassrooms.paymybuddy.repository.BuddyRepository;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "buddies")
 @NoArgsConstructor
 public class Buddy {

@@ -11,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,12 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -51,7 +45,7 @@ public class TransactionController {
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         Transaction transaction = new Transaction();
         List<FriendDto> friendList = userService.getFriendDtoList(email);
-        List<Sort.Order> orders = new ArrayList<Sort.Order>();
+        List<Sort.Order> orders = new ArrayList<>();
 
         if (sort[0].contains(",")) {
             // will sort more than 2 fields
@@ -69,7 +63,7 @@ public class TransactionController {
         pageTransactionsDto = transactionService.getPage(email, pagingSort);
         int totalPages = pageTransactionsDto.getTotalPages();
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, (int) totalPages)
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
@@ -81,16 +75,20 @@ public class TransactionController {
     }
 
     @PostMapping("/addTransaction")
-    public String addTransfer(@ModelAttribute("transaction") Transaction transaction, BindingResult result, Model model) {
+    public String addTransfer(@ModelAttribute("transaction") Transaction transaction, BindingResult result) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
-        if (transaction.getPrice() < 0 || transaction.getPrice() == 0)
-            result.rejectValue("price", null,
+        if (transaction.getPrice() < 0 || transaction.getPrice() == 0) {
+            result.rejectValue("price", "error.price",
                     "You must send something...");
+            return "redirect:/transfer?error";
+        }
         try {
             transactionService.addTransaction(email, transaction.getPaid(), transaction.getLabel(), transaction.getPrice());
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("price", "error.price",
+                    "You don't have enough money");
+            return "redirect:/transfer?error";
         }
         return "redirect:/transfer?success";
     }

@@ -1,6 +1,5 @@
 package com.openclassrooms.paymybuddy.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -45,16 +43,12 @@ public class SecurityConfiguration {
     }
 
     public static String getEmailFromAuthentication(Authentication authentication) {
-        Object principal = null;
+        Object principal;
         String email = null;
 
         if (authentication != null) {
             principal = authentication.getPrincipal();
-
-            if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                email = oAuth2User.getAttribute("email");
-            } else if (principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {
                 email = ((UserDetails) principal).getUsername();
             } else {
                 email = principal.toString();

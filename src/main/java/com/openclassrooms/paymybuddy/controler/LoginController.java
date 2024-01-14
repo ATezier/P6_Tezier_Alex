@@ -38,7 +38,7 @@ public class LoginController {
             Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
         if (existingUser != null)
-            result.rejectValue("email", null,
+            result.rejectValue("email", "error.email",
                     "User already registered.");
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);

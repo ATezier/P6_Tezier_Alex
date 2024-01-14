@@ -36,8 +36,7 @@ public class AccountController {
     @PostMapping("/addFunds")
     public String addFunds(
             @Valid @ModelAttribute("amount") Double amount, @Valid @ModelAttribute("aid") Integer aid,
-            BindingResult result,
-            Model model) {
+            BindingResult result) {
         accountService.supplyAccount(amount, aid);
         return "redirect:/home?success";
     }
@@ -51,8 +50,7 @@ public class AccountController {
     @PostMapping("/addAccount")
     public String addAccount(
             @Valid @ModelAttribute("account") Account account,
-            BindingResult result,
-            Model model) {
+            BindingResult result) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         accountService.addAccount(account, email);

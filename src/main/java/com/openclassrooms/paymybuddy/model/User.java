@@ -1,10 +1,12 @@
 package com.openclassrooms.paymybuddy.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
@@ -23,21 +25,17 @@ public class User {
     private String password;
     @Column(name = "amount")
     private double amount;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "auth_provider")
-    private AuthentificationProvider authProvider;
 
     @ManyToOne
     @JoinColumn(name="rid", referencedColumnName = "rid")
     private Role role;
 
-    public User(String firstName, String lastName, String email, String password, Role role, AuthentificationProvider authProvider) {
+    public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.authProvider = authProvider;
     }
 
 }

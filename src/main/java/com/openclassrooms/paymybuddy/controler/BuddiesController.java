@@ -39,12 +39,12 @@ public class BuddiesController {
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         User existingUser = userService.findUserByEmail(buddyEmail);
         if(existingUser == null) {
-            result.rejectValue("email", null,
+            result.rejectValue("email", "error.email",
                     "The user doesn't exist");
             return "redirect:/contact";
         } else {
             if(!userService.addBuddy(email, buddyEmail)) {
-                result.rejectValue("email", null, "The user is already your friend");
+                result.rejectValue("email", "error.email", "The user is already your friend");
                 return "redirect:/contact";
             }
         }
