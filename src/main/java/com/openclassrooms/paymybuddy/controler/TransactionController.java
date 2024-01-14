@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +87,11 @@ public class TransactionController {
         if (transaction.getPrice() < 0 || transaction.getPrice() == 0)
             result.rejectValue("price", null,
                     "You must send something...");
-        transactionService.addTransaction(email, transaction.getPaid(), transaction.getLabel(), transaction.getPrice());
+        try {
+            transactionService.addTransaction(email, transaction.getPaid(), transaction.getLabel(), transaction.getPrice());
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
         return "redirect:/transfer?success";
     }
 }
