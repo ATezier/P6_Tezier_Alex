@@ -4,14 +4,9 @@ import com.openclassrooms.paymybuddy.dto.TransactionDto;
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
@@ -23,8 +18,6 @@ import java.util.List;
 public class TransactionService {
     private final UserService userService;
     private final TransactionRepository transactionRepository;
-    @Autowired
-    private PlatformTransactionManager platformTransactionManager;
 
     public TransactionService(TransactionRepository transactionRepository, UserService userService) {
         this.transactionRepository = transactionRepository;
@@ -39,35 +32,24 @@ public class TransactionService {
     }
 
     public void addTransaction(String payerEmail, Integer paid, String label, double amount) throws IllegalArgumentException {
-        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                Integer payer;
-                boolean enoughFund;
-                double truncatedAmount = truncateDouble(amount);
-                double truncatedAmountWithFees = truncateDouble(amount * (1.005));
-                payer = userService.findUserByEmail(payerEmail).getUid();
-                enoughFund = userService.addMoney(truncatedAmountWithFees * (-1), payer);
-                try {
-                    if (enoughFund) {
-                        Transaction transaction = new Transaction();
-                        transaction.setPayer(payer);
-                        transaction.setPaid(paid);
-                        transaction.setLabel(label);
-                        transaction.setDate(new Timestamp(System.currentTimeMillis()));
-                        transaction.setPrice(truncatedAmountWithFees);
-                        transactionRepository.save(transaction);
-                        userService.addMoney(truncatedAmount, paid);
-                    } else {
-                        throw new IllegalArgumentException("Insufficient funds");
-                    }
-                } catch (Exception e) {
-                    status.setRollbackOnly();
-                    throw e;
-                }
-            }
-        });
+        Integer payer;
+        boolean enoughFund;
+        double truncatedAmount = truncateDouble(amount);
+        double truncatedAmountWithFees = truncateDouble(amount * (1.005));
+        payer = userService.findUserByEmail(payerEmail).getUid();
+        enoughFund = userService.addMoney(truncatedAmountWithFees * (-1), payer);
+        if (enoughFund) {
+            Transaction transaction = new Transaction();
+            transaction.setPayer(payer);
+            transaction.setPaid(paid);
+            transaction.setLabel(label);
+            transaction.setDate(new Timestamp(System.currentTimeMillis()));
+            transaction.setPrice(truncatedAmountWithFees);
+            transactionRepository.save(transaction);
+            userService.addMoney(truncatedAmount, paid);
+        } else {
+            throw new IllegalArgumentException("Insufficient funds");
+        }
     }
     public static Double truncateDouble(double oldValue) {
         return BigDecimal.valueOf(oldValue).setScale(2, RoundingMode.HALF_UP).doubleValue();
