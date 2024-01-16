@@ -2,16 +2,14 @@ package com.openclassrooms.paymybuddy.service;
 
 import com.openclassrooms.paymybuddy.model.Account;
 import com.openclassrooms.paymybuddy.repository.AccountRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -33,7 +31,7 @@ public class AccountServiceTest {
         account.setCardNumber("4234567890123456");
         given(userService.getUidByEmail(anyString())).willReturn(1);
         accountService.addAccount(account, "email");
-        assertTrue(account.getCardType() != null);
+        Assertions.assertNotNull(account.getCardType());
     }
     @Test
     public void testGetAccountsByEmail() {
@@ -43,7 +41,7 @@ public class AccountServiceTest {
         accounts.add(new Account());
         given(userService.getUidByEmail(anyString())).willReturn(1);
         given(accountRepository.findAllByUid(anyInt())).willReturn(accounts);
-        assertTrue(accountService.getAccountsByEmail("email").size() == 3);
+        Assertions.assertEquals(3, accountService.getAccountsByEmail("email").size());
     }
 
     @Test

@@ -37,10 +37,10 @@ public class TransactionController {
 
 
     @GetMapping("/transfer")
-    public String getAllTutorialsPage(Model model,
-                                      @RequestParam(defaultValue = "0") int page,
-                                      @RequestParam(defaultValue = "3") int size,
-                                      @RequestParam(defaultValue = "date,desc") String[] sort) {
+    public String getPage(Model model,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "3") int size,
+                          @RequestParam(defaultValue = "date,desc") String[] sort) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
         Transaction transaction = new Transaction();

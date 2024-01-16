@@ -53,7 +53,12 @@ public class AccountController {
             BindingResult result) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
-        accountService.addAccount(account, email);
+        try {
+            accountService.addAccount(account, email);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("cardNumber", "error.account", e.getMessage());
+            return "addAccount";
+        }
         return "redirect:/addFunds?success";
     }
 

@@ -2,11 +2,9 @@ package com.openclassrooms.paymybuddy.controller;
 
 
 import com.openclassrooms.paymybuddy.Application;
-import com.openclassrooms.paymybuddy.repository.BuddyRepository;
 import com.openclassrooms.paymybuddy.service.BuddyService;
 import com.openclassrooms.paymybuddy.service.UserService;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;

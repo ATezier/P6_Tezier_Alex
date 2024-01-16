@@ -5,11 +5,13 @@ import com.openclassrooms.paymybuddy.model.CardTypeProvider;
 import com.openclassrooms.paymybuddy.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class AccountService {
     @Autowired
@@ -31,13 +33,11 @@ public class AccountService {
             case 3:
                 account.setCardType(CardTypeProvider.AmericanExpress);
                 break;
+            default: throw new IllegalArgumentException("Invalid card number");
         }
-        if(account.getCardType() == null) throw new IllegalArgumentException("Invalid card number");
-        else {
-            account.setUid(uid);
-            account.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-            accountRepository.save(account);
-        }
+        account.setUid(uid);
+        account.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+        accountRepository.save(account);
     }
 
     public List<Account> getAccountsByEmail(String email) {

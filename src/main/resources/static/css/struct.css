@@ -16,7 +16,8 @@ button, .btn {
     display : flex;
     flex-direction : row;
     justify-content : flex-end;
-    margin-top: 1vh;
+    padding: 1vh 0 1vh 0;
+    margin-bottom: 1vh;
 }
 
 .navbar > img {
@@ -79,5 +80,6 @@ h1, h2 {
 
 .path {
     align-self : flex-start;
-    margin: 1vh 0 0 2vw;
+    padding: 1vh 0 1vh 2vw;
+    background-color: #F5F5F5;
 }
