@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
     @GetMapping("/home")
     public String registrationForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

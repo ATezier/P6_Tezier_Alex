@@ -32,7 +32,7 @@
                 role="form"
                 th:action="@{/addBuddy}"
                 th:object="${buddyEmail}">
-                <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="buddyEmail" id="buddyEmail" placeholder="somebody@example.com"€/>
+                <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="buddyEmail" id="buddyEmail" placeholder="somebody@example.com" required/>
                 <button class="mainColor" type="submit">Add Connexion</button>
             </form>
         </div>

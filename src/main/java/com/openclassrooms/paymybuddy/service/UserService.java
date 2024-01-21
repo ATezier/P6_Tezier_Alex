@@ -3,6 +3,7 @@ package com.openclassrooms.paymybuddy.service;
 import com.openclassrooms.paymybuddy.dto.FriendDto;
 import com.openclassrooms.paymybuddy.dto.UserDto;
 import com.openclassrooms.paymybuddy.model.User;
+import com.openclassrooms.paymybuddy.repository.RoleRepository;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,19 +17,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final BuddyService buddyService;
 
-    public UserService(UserRepository userRepository, BuddyService buddyService) {
+    private final RoleRepository roleRepository;
+
+    public UserService(UserRepository userRepository, BuddyService buddyService, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.buddyService = buddyService;
+        this.roleRepository = roleRepository;
     }
-
-    @Autowired
-    private com.openclassrooms.paymybuddy.repository.RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public void saveUser(com.openclassrooms.paymybuddy.dto.UserDto userDto) {
         com.openclassrooms.paymybuddy.model.Role role = roleRepository.findByName(com.openclassrooms.paymybuddy.util.TbConstants.Roles.USER);
+
 
         if (role == null)
             role = roleRepository.save(new com.openclassrooms.paymybuddy.model.Role(com.openclassrooms.paymybuddy.util.TbConstants.Roles.USER));

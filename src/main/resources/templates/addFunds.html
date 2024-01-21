@@ -33,11 +33,11 @@
             th:action="@{/addFunds}"
             th:object="${accounts}">
 
-            <select name="aid" id="aid">
-            <option value="0">Please Select</option>
+            <select name="aid" id="aid" required>
+            <option value="" selected disabled>Please Select</option>
             <option th:each="account: ${accounts}" th:value="${account.aid}" th:text="${account.cardNumber}"></option>
             </select>
-            <input name="amount" id="amount" placeholder="20"€/>
+            <input name="amount" id="amount" placeholder="20"€ required/>
             <button class="mainColor" type="submit">Supply</button>
         </form>
         

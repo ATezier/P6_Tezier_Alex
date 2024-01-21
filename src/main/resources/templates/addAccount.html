@@ -23,24 +23,25 @@
                 <h1>Add an account</h1>
                 <div th:if="${param.success}">
                     <div class="alert alert-info">
-                        Registration successful !!!
+                        Registration successful !
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="name">Full Name</label>
-                    <input class="form-control" id="name" name="name" type="name">
+                    <input class="form-control" id="name" name="name" type="name" required>
                     <p class="text-danger" th:errors="*{name}"
                        th:if="${#fields.hasErrors('name')}"></p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="cardNumber">Card Number</label>
-                    <input class="form-control" id="cardNumber" name="cardNumber" type="text">
+                    <input class="form-control" id="cardNumber" name="cardNumber" type="text" required>
                     <p class="text-danger" th:errors="*{cardNumber}"
                        th:if="${#fields.hasErrors('cardNumber')}"></p>
                 </div>
                 <div class="date-field mb-3">
                   <div class="month">
-                    <select name="expMonth">
+                    <select name="expMonth" required>
+                      <option value="" selected disabled>Please select</option>
                       <option value="1">January</option>
                       <option value="2">February</option>
                       <option value="3">March</option>
@@ -56,8 +57,8 @@
                     </select>
                   </div>
                   <div class="year">
-                    <select name="expYear">
-                      <option value="2023">2023</option>
+                    <select name="expYear" required>
+                      <option value="" selected disabled>Please select</option>
                       <option value="2024">2024</option>
                       <option value="2025">2025</option>
                       <option value="2026">2026</option>

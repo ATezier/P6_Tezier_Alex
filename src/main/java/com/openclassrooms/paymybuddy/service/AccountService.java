@@ -14,11 +14,13 @@ import java.util.List;
 @Transactional
 @Service
 public class AccountService {
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    UserService userService;
+    private final AccountRepository accountRepository;
+    private final UserService userService;
 
+    public AccountService(AccountRepository accountRepository, UserService userService) {
+        this.accountRepository = accountRepository;
+        this.userService = userService;
+    }
     public void addAccount(Account account, String email) {
         Integer uid = userService.getUidByEmail(email);
         if(uid == null) throw new IllegalArgumentException("Invalid user id");

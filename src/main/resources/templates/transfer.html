@@ -34,15 +34,16 @@
                     th:action="@{/addTransaction}"
                     th:object="${transaction}">
 
-                <select name="paid" id="paid">
-                    <option value="0">Please Select</option>
+                <select name="paid" id="paid" required>
+                    <option value="" selected disabled>Please Select</option>
                     <option th:each="buddy: ${friendList}" th:value="${buddy.uid}" th:text="${buddy.lastName}+' '+${buddy.firstName}"></option>
                 </select>
-                <textarea placeholder="Description" name="label" id="label"></textarea>
-                <input name="price" id="amount" placeholder="0"€/>
+                <textarea placeholder="Description" name="label" id="label" required></textarea>
+                
+                <input name="price" id="price" placeholder="0"€ required/>
                 <p class="text-danger" th:errors="*{price}"
                 th:if="${#fields.hasErrors('price')}"></p>
-                <button class="mainColor" type="submit">Pay</button>
+                <button id="submit" class="mainColor" type="submit">Pay</button>
             </form>
         </div>
         

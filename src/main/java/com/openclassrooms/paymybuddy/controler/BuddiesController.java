@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class BuddiesController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/contact")
     public String contact(Model model) {

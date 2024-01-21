@@ -28,25 +28,25 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="lastName">LastName</label>
-                    <input class="form-control" id="lastName" name="lastName" type="text">
+                    <input class="form-control" id="lastName" name="lastName" type="text" required>
                     <p class="text-danger" th:errors="*{lastName}"
                        th:if="${#fields.hasErrors('lastName')}"></p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="firstName">FirstName</label>
-                    <input class="form-control" id="firstName" name="firstName" type="text">
+                    <input class="form-control" id="firstName" name="firstName" type="text" required>
                     <p class="text-danger" th:errors="*{firstName}"
                        th:if="${#fields.hasErrors('firstName')}"></p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="email">Email</label>
-                    <input class="form-control" id="email" name="email" type="email">
+                    <input class="form-control" id="email" name="email" type="email" required>
                     <p class="text-danger" th:errors="*{email}"
                        th:if="${#fields.hasErrors('email')}"></p>
                 </div>
                 <div class="mb-3">
                     <label class="col-sm-2 col-form-label" for="password">Password</label>
-                    <input class="form-control" id="password" name="password" type="password">
+                    <input class="form-control" id="password" name="password" type="password" required>
                     <p class="text-danger" th:errors="*{password}"
                        th:if="${#fields.hasErrors('password')}"></p>
                 </div>

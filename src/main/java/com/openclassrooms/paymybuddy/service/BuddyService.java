@@ -11,8 +11,10 @@ import java.util.Objects;
 
 @Service
 public class BuddyService {
-    @Autowired
-    private BuddyRepository buddyRepository;
+    private final BuddyRepository buddyRepository;
+    public BuddyService(BuddyRepository buddyRepository) {
+        this.buddyRepository = buddyRepository;
+    }
 
     public List<Integer> getBuddyList(Integer uid) {
         List<Integer> res = new ArrayList<>();

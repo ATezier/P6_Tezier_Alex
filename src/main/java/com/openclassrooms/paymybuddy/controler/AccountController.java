@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class AccountController {
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @GetMapping("/addFunds")
     public String accounts(Model model) {

@@ -78,16 +78,15 @@ public class TransactionController {
     public String addTransfer(@ModelAttribute("transaction") Transaction transaction, BindingResult result) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = SecurityConfiguration.getEmailFromAuthentication(authentication);
-        if (transaction.getPrice() < 0 || transaction.getPrice() == 0) {
+        if (transaction.getPrice() < 2) {
             result.rejectValue("price", "error.price",
-                    "You must send something...");
+                    "You must send more than 2€.");
             return "redirect:/transfer?error";
         }
         try {
             transactionService.addTransaction(email, transaction.getPaid(), transaction.getLabel(), transaction.getPrice());
         } catch (IllegalArgumentException e) {
-            result.rejectValue("price", "error.price",
-                    "You don't have enough money");
+            result.rejectValue("price", "error.price", e.getMessage());
             return "redirect:/transfer?error";
         }
         return "redirect:/transfer?success";
